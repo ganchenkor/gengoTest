@@ -42,11 +42,11 @@ app.post('/user', function(req,res,next){
 });
 
 app.post('/write', function(req, res) {
-  fs.writeFile("./tmp/" + new Date().getTime(), JSON.stringify(req.body), function(err){
+  fs.writeFile("./tmp/" + new Date().getTime(), JSON.stringify(req.json), function(err){
   });
   fs.writeFile("./tmp/latest", JSON.stringify(req.body), function(err){
   });
-    res.send(req.body);
+    res.send(req.json);
 });
 
 app.get('/readall', function(req,res){
