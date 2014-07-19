@@ -41,6 +41,11 @@ app.post('/user', function(req,res,next){
   // next();
 });
 
+app.post('/some', function(req, res) {
+  fs.writeFile("./tmp/test", JSON.stringify(req.body), function(err){
+  });
+    res.send(req.body);
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
