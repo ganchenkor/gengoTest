@@ -8,7 +8,9 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , fs  = require('fs')
-  , path = require('path');
+  , path = require('path')
+  , Store = require('jfs')
+  , db = new Store('data', {pretty:true});
 
 var app = express();
 
@@ -42,21 +44,23 @@ app.post('/user', function(req,res,next){
 });
 
 app.post('/write', function(req, res) {
-  fs.writeFile("./tmp/" + new Date().getTime(),JSON.stringify(req.body), function(err){
-  });
-  fs.writeFile("./tmp/latest", JSON.stringify(req.body), function(err){
-  });
-    res.send(req.body);
+  db.saveSync("latest", req.body, function(err){});
+  db.saveSync(req.body, function(err){});
+  res.send(req.body);
 });
 
 app.get('/readall', function(req,res){
-  var files = fs.readdirSync('./tmp')
-  res.send(files);
+  // var files = fs.readdirSync('./data')
+  // db.allSync(function(err, objs) {
+  //   res.send(objs);
+  // })
+  res.send(db.allSync());
 });
 
 app.get('/readone/:id', function(req,res) {
-  var file = require('./tmp/' + req.params.id);
-  res.send(JSON.parse(file));
+  var file = db.getSync(req.params.id)
+  // var file = require('./tmp/' + req.params.id);
+  res.send(file);
 } );
 
 http.createServer(app).listen(app.get('port'), function(){
