@@ -42,10 +42,9 @@ app.post('/user', function(req,res,next){
 });
 
 app.post('/write', function(req, res) {
-  var json = JSON.stringify(req.body);
-  fs.writeFile("./tmp/" + new Date().getTime(), JSON.parse(json), function(err){
+  fs.writeFile("./tmp/" + new Date().getTime(),JSON.stringify(req.body), function(err){
   });
-  fs.writeFile("./tmp/latest", JSON.parse(json), function(err){
+  fs.writeFile("./tmp/latest", JSON.stringify(req.body), function(err){
   });
     res.send(req.body);
 });
@@ -56,7 +55,7 @@ app.get('/readall', function(req,res){
 });
 
 app.get('/readone/:id', function(req,res) {
-  var file = fs.readFileSync('./tmp/' + req.params.id, 'utf8');
+  var file = require('./tmp/' + req.params.id, 'utf8');
   res.send(JSON.parse(file));
 } );
 
