@@ -42,7 +42,7 @@ app.post('/user', function(req,res,next){
 });
 
 app.post('/write', function(req, res) {
-  var json = JSON.stingify(req.json);
+  var json = JSON.stringify(req.json);
   fs.writeFile("./tmp/" + new Date().getTime(), JSON.parse(json), function(err){
   });
   fs.writeFile("./tmp/latest", JSON.parse(json), function(err){
