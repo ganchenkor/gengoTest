@@ -31,7 +31,7 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.post('/user', function(req,res,next){
-  console.log(req);
+
   req.rawBody = '';
 
   req.on('data', function(chunk) {
@@ -41,12 +41,22 @@ app.post('/user', function(req,res,next){
   // next();
 });
 
-app.post('/some', function(req, res) {
-  fs.writeFile("./tmp/test", JSON.stringify(req.body), function(err){
+app.post('/write', function(req, res) {
+  fs.writeFile("./tmp/" + new Date().getTime(), JSON.stringify(req.body), function(err){
   });
     res.send(req.body);
 });
 
+app.get('/readall', function(req,res){
+  var files = fs.readdirSync('./tmp')
+  console.log(files);
+  res.send(files);
+});
+
+app.get('/readone/:id', function(req,res) {
+  var file = fs.readFileSync('./tmp/' + req.params.id, 'utf8');
+  res.send(JSON.parse(file));
+} );
+
 http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
 });
