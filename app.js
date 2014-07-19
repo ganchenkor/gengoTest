@@ -42,16 +42,16 @@ app.post('/user', function(req,res,next){
 });
 
 app.post('/write', function(req, res) {
-  fs.writeFile("./tmp/" + new Date().getTime(), JSON.stringify(req.json), function(err){
+  var json = JSON.stingify(req.json);
+  fs.writeFile("./tmp/" + new Date().getTime(), JSON.parse(json), function(err){
   });
-  fs.writeFile("./tmp/latest", JSON.stringify(req.body), function(err){
+  fs.writeFile("./tmp/latest", JSON.parse(json), function(err){
   });
     res.send(req.body);
 });
 
 app.get('/readall', function(req,res){
   var files = fs.readdirSync('./tmp')
-  console.log(files);
   res.send(files);
 });
 
