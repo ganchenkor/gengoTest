@@ -55,7 +55,7 @@ app.get('/readall', function(req,res){
 });
 
 app.get('/readone/:id', function(req,res) {
-  var file = require('./tmp/' + req.params.id, 'utf8');
+  var file = require('./tmp/' + req.params.id);
   res.send(JSON.parse(file));
 } );
 
