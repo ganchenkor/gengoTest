@@ -44,6 +44,8 @@ app.post('/user', function(req,res,next){
 app.post('/write', function(req, res) {
   fs.writeFile("./tmp/" + new Date().getTime(), JSON.stringify(req.body), function(err){
   });
+  fs.writeFile("./tmp/latest", JSON.stringify(req.body), function(err){
+  });
     res.send(req.body);
 });
 
