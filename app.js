@@ -46,7 +46,7 @@ app.post('/write', function(req, res) {
   });
   fs.writeFile("./tmp/latest", JSON.stringify(req.body), function(err){
   });
-    res.send(req.json);
+    res.send(req.body);
 });
 
 app.get('/readall', function(req,res){
